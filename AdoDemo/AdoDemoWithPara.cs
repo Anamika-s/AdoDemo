@@ -10,6 +10,7 @@ namespace AdoDemoWithPara
         static SqlCommand command;
         static void Main(string[] args)
         {
+            CreateDatabase();
             byte ch;
             char choice = 'y';
             while (choice == 'y')
@@ -71,7 +72,7 @@ namespace AdoDemoWithPara
 
         private static string GetConnectionString()
         {
-            return @"data source=ANAMIKA\SQLSERVER;initial catalog=EDb;integrated security=true";
+            return @"data source=ANAMIKA\SQLSERVER;initial catalog=EmpDb;integrated security=true";
         }
         private static SqlConnection GetConnection()
         {
@@ -199,7 +200,24 @@ namespace AdoDemoWithPara
             }
         }
 
-
+        static void CreateDatabase()
+        {
+            try
+            {
+                using (connection = GetConnection())
+                {
+                    using (command = new SqlCommand("Create Database FirstDb", connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
         static void EditEmployee(int id, string address, string dept)
 
 
